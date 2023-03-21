@@ -6,6 +6,12 @@ A lightweight Node.js library for persisting image URLs using the [imgbb.com](ht
 
 ```bash
 npm install persistent-image-url
+
+# or using Yarn:
+yarn add persistent-image-url
+
+# or using pnpm:
+pnpm add persistent-image-url
 ```
 
 ## Usage
