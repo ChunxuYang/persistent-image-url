@@ -1,4 +1,12 @@
-# Persistent Image URL
+<p align="center">
+    <h1 align="center">Persistent Image Url</h1>
+    <p align="center">
+     <a href="https://www.npmjs.com/package/persistent-image-url">
+        <img src="https://img.shields.io/badge/Licence-MIT-yellow" alt="Licence">
+     </a>
+   <img src="https://img.shields.io/badge/npm-v1.0.1-green" alt="npm">
+   </p>
+</p>
 
 A lightweight Node.js library for persisting image URLs using the [imgbb.com](https://imgbb.com/) API. This library allows you to upload images from temporary URLs and get back persistent URLs that can be used to access the image later.
 
