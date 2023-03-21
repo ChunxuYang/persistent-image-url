@@ -4,7 +4,9 @@
      <a href="https://www.npmjs.com/package/persistent-image-url">
         <img src="https://img.shields.io/badge/Licence-MIT-yellow" alt="Licence">
      </a>
-   <img src="https://img.shields.io/badge/npm-v1.0.1-green" alt="npm">
+     <a href="https://www.npmjs.com/package/persistent-image-url">
+        <img src="https://img.shields.io/badge/npm-v1.0.1-green" alt="npm">
+     </a>
    </p>
 </p>
 
