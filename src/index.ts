@@ -1,8 +1,11 @@
 import axios from "axios";
+import { uploadImageToImgbb } from "./services/imgbb-service";
+import { uploadImageToSmms } from "./services/smms-service";
 
-const IMGBB_URL = "https://api.imgbb.com/1/upload";
+type Uploader = "imgbb" | "smms";
 
 export type UploaderConfig = {
+  uploader?: Uploader;
   token: string;
 };
 
@@ -11,27 +14,26 @@ export async function persistImage(
   config: UploaderConfig
 ): Promise<string> {
   try {
-    // get image from tempUrl and convert to base64
+    // default to imgbb
+    if (!config.uploader) {
+      config.uploader = "imgbb";
+    }
+
     const imageStream = await axios.get(tempUrl, {
       responseType: "arraybuffer",
     });
 
-    // convert image to base64
     const imageBase64 = Buffer.from(imageStream.data, "binary").toString(
       "base64"
     );
 
-    const formData = new FormData();
-    formData.append("image", imageBase64);
-
-    // upload image to imgbb
-    const res = await axios.post(IMGBB_URL, formData, {
-      params: {
-        key: config.token,
-      },
-    });
-
-    return res.data.data.url;
+    if (config.uploader === "imgbb") {
+      return uploadImageToImgbb(imageBase64, config.token);
+    } else if (config.uploader === "smms") {
+      return uploadImageToSmms(imageBase64, config.token);
+    } else {
+      throw new Error("Invalid uploader specified");
+    }
   } catch (error) {
     throw new Error("Unable to persist image");
   }

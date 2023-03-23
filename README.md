@@ -1,16 +1,6 @@
-<p align="center">
-    <h1 align="center">Persistent Image Url</h1>
-    <p align="center">
-     <a href="https://www.npmjs.com/package/persistent-image-url">
-        <img src="https://img.shields.io/badge/Licence-MIT-yellow" alt="Licence">
-     </a>
-     <a href="https://www.npmjs.com/package/persistent-image-url">
-        <img src="https://img.shields.io/badge/npm-v1.0.1-green" alt="npm">
-     </a>
-   </p>
-</p>
+# Persistent Image Url
 
-A lightweight Node.js library for persisting image URLs using the [imgbb.com](https://imgbb.com/) API. This library allows you to upload images from temporary URLs and get back persistent URLs that can be used to access the image later.
+A lightweight Node.js library for persisting image URLs using the [imgbb.com](https://imgbb.com/) or [sm.ms](https://sm.ms/) API. This library allows you to upload images from temporary URLs and get back persistent URLs that can be used to access the image later.
 
 ## Installation
 
@@ -32,9 +22,12 @@ const { persistImage } = require("persistent-image-url");
 // import { persistImage } from "persistent-image-url";
 
 const tempUrl = "https://example.com/image.jpg";
-const imgbbToken = "YOUR_IMGBB_API_TOKEN";
+const token = "YOUR_API_TOKEN";
 
-persistImage(tempUrl, { token: imgbbToken })
+persistImage(tempUrl, {
+  uploader: "imgbb", // or "smms", defaults to "imgbb"
+  token,
+})
   .then((url) => {
     console.log(`Image uploaded to ${url}`);
   })
@@ -49,7 +42,8 @@ The `persistImage` function takes a configuration object with the following prop
 
 - `tempUrl`: The temporary URL of the image to upload.
 - `config`: An object with the following properties:
-  - `token`: Your [ImgBB](https://imgbb.com/) API token.
+  - `uploader`: The image uploader service to use. Supported values are `"imgbb"` and `"smms"`. Defaults to `"imgbb"`.
+  - `token`: Your [ImgBB](https://imgbb.com/) or [SM.MS](https://sm.ms/) API token.
 
 ## License
 

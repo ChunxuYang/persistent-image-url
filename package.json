@@ -1,17 +1,20 @@
 {
   "name": "persistent-image-url",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "typings": "jest --config jest.config.js"
+    "test": "jest --config jest.config.js",
+    "test-smms": "jest --config jest.config.js -t smms"
   },
   "keywords": [
     "image",
     "upload",
     "imgbb",
+    "smms",
+    "sm.ms",
     "persistent",
     "url"
   ],
