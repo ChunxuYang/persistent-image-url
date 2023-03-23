@@ -38,7 +38,7 @@ dotenv.config();
 describe("persistImage", () => {
     it("should return a url", () => __awaiter(void 0, void 0, void 0, function* () {
         const testUrl = "https://picsum.photos/200/300";
-        const IMGBB_TOKEN = process.env.IMGBB_TOKEN;
+        const IMGBB_TOKEN = process.env.IMGBB_API_KEY;
         const persistUrl = yield (0, index_1.persistImage)(testUrl, {
             token: IMGBB_TOKEN,
         });
@@ -47,8 +47,9 @@ describe("persistImage", () => {
     }));
     it("should throw an error if the image cannot be downloaded", () => __awaiter(void 0, void 0, void 0, function* () {
         const testUrl = "https://thisimagewillnotexist.com/foobar";
-        const IMGBB_TOKEN = process.env.IMGBB_TOKEN;
+        const IMGBB_TOKEN = process.env.IMGBB_API_KEY;
         yield expect((0, index_1.persistImage)(testUrl, {
+            uploader: "smms",
             token: IMGBB_TOKEN,
         })).rejects.toThrowError();
     }));
@@ -61,9 +62,38 @@ describe("persistImage", () => {
     }));
     it("should throw an error if the tempUrl is invalid or the image cannot be downloaded", () => __awaiter(void 0, void 0, void 0, function* () {
         const testUrl = "invalid-url";
-        const IMGBB_TOKEN = process.env.IMGBB_TOKEN;
+        const IMGBB_TOKEN = process.env.IMGBB_API_KEY;
         yield expect((0, index_1.persistImage)(testUrl, {
+            uploader: "smms",
             token: IMGBB_TOKEN,
+        })).rejects.toThrowError();
+    }));
+});
+describe("smms", () => {
+    it("should return a url", () => __awaiter(void 0, void 0, void 0, function* () {
+        const testUrl = "https://picsum.photos/200/300";
+        const TOKEN = process.env.SMMS_API_KEY;
+        const persistUrl = yield (0, index_1.persistImage)(testUrl, {
+            uploader: "smms",
+            token: TOKEN,
+        });
+        // any url can be returned, check start of string
+        expect(persistUrl).toMatch(/^http/);
+    }));
+    it("should throw an error if the image cannot be downloaded", () => __awaiter(void 0, void 0, void 0, function* () {
+        const testUrl = "https://thisimagewillnotexist.com/foobar";
+        const TOKEN = process.env.SMMS_API_KEY;
+        yield expect((0, index_1.persistImage)(testUrl, {
+            uploader: "smms",
+            token: TOKEN,
+        })).rejects.toThrowError();
+    }));
+    it("should throw an error if the image cannot be uploaded", () => __awaiter(void 0, void 0, void 0, function* () {
+        const testUrl = "https://picsum.photos/200/300";
+        const TOKEN = "invalid-token";
+        yield expect((0, index_1.persistImage)(testUrl, {
+            uploader: "smms",
+            token: TOKEN,
         })).rejects.toThrowError();
     }));
 });

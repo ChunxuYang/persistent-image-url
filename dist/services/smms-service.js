@@ -12,34 +12,29 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.persistImage = void 0;
+exports.uploadImageToSmms = void 0;
 const axios_1 = __importDefault(require("axios"));
-const imgbb_service_1 = require("./services/imgbb-service");
-const smms_service_1 = require("./services/smms-service");
-function persistImage(tempUrl, config) {
+const SMMS_URL = "https://sm.ms/api/v2/upload";
+function uploadImageToSmms(imageBase64, token) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            // default to imgbb
-            if (!config.uploader) {
-                config.uploader = "imgbb";
-            }
-            const imageStream = yield axios_1.default.get(tempUrl, {
-                responseType: "arraybuffer",
+            // convert base64 to blob
+            const blob = yield fetch(`
+      data:application/octet-stream;base64,${imageBase64}
+    `).then((r) => r.blob());
+            const formData = new FormData();
+            formData.append("smfile", blob);
+            const res = yield axios_1.default.post(SMMS_URL, formData, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                    Authorization: token,
+                },
             });
-            const imageBase64 = Buffer.from(imageStream.data, "binary").toString("base64");
-            if (config.uploader === "imgbb") {
-                return (0, imgbb_service_1.uploadImageToImgbb)(imageBase64, config.token);
-            }
-            else if (config.uploader === "smms") {
-                return (0, smms_service_1.uploadImageToSmms)(imageBase64, config.token);
-            }
-            else {
-                throw new Error("Invalid uploader specified");
-            }
+            return res.data.data.url;
         }
         catch (error) {
-            throw new Error("Unable to persist image");
+            throw new Error("Unable to upload image to Smms");
         }
     });
 }
-exports.persistImage = persistImage;
+exports.uploadImageToSmms = uploadImageToSmms;
